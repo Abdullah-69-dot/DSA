@@ -3,18 +3,23 @@ def rotate_matrix(matrix):
     n = len(matrix)
     for layer in range(n // 2):
         first, last = layer, n - layer - 1
+        
         for i in range(first, last):
-            top = matrix[layer][i]
+            offset = i - first
+            top = matrix[first][i]
 
-            matrix[layer][i] = matrix[-i - 1][layer]
+            # left -> top
+            matrix[first][i] = matrix[last - offset][first]
 
-            matrix[-i - 1][layer] = matrix[-layer - 1][-i - 1]
+            # bottom -> left
+            matrix[last - offset][first] = matrix[last][last - offset]
 
-            matrix[-layer - 1][-i - 1] = matrix[i][- layer - 1]
+            # right -> bottom
+            matrix[last][last - offset] = matrix[i][last]
 
-            matrix[i][- layer - 1] = top
+            # top -> right
+            matrix[i][last] = top
     return matrix
 
-matrix = np.array([[1,2,3], [4,5,6], [7,8,9]])
-print(matrix)
+matrix = [[1,2,3], [4,5,6], [7,8,9]]
 print(rotate_matrix(matrix))
